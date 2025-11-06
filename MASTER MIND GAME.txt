@@ -1,0 +1,106 @@
+# ==============================
+#         MASTER MIND GAME
+# ==============================
+from random import randint
+import datetime
+
+print("                                   { MASTER MIND GAME }")
+print("---------------------------------------------------------------------------------------------")
+
+# ===== PLAYER SETUP =====
+nm = input("Enter Your Name: ").strip().upper()
+
+print("\n                                    INPUT YOUR GENDER")
+sex = input("[MALE {m} / FEMALE {f}]: ").lower().strip()
+
+if sex == "m":
+    output = "MR."
+elif sex == "f":
+    output = "MRS."
+else:
+    output = ""
+
+print("---------------------------------------------------------------------------------------------")
+print("WELCOME TO THE MASTER MIND GAME", output, nm)
+
+# ===== GREETING BASED ON TIME =====
+dt = datetime.datetime.now()
+hour = dt.hour
+
+if hour < 12:
+    print("GOOD MORNING", output, nm)
+elif 12 <= hour < 18:
+    print("GOOD AFTERNOON", output, nm)
+else:
+    print("GOOD EVENING", output, nm)
+
+# ===== GAME INTRO DESIGN =====
+print("                              --------------------------------                              ")
+print("                              |-----The Master_Mind Game-----|                              ")
+print("                              --------------------------------                              ")
+print("                     -----------------------------------------------------                  ")
+print("                                       GOOD LUCK", nm)
+print("                     -----------------------------------------------------                  ")
+print("---------------------------------------------------------------------------------------------")
+input("PRESS ENTER TO START THE GAME ")
+
+# ===== GAME START =====
+play = "yes"
+while play == "yes":
+    # Computer chooses random 4-digit number
+    secret = str(randint(1000, 9999))
+    display = ["X"] * 4
+
+    print("\nA 4-digit number has been chosen by the computer. Try to guess it!")
+    print("---------------------------------------------------------------------------------------------")
+
+    for round_num in range(1, 11):
+        print(f"\nROUND {round_num} START")
+        print("Current Progress:", display)
+
+        # After 5 rounds, give a hint
+        if round_num == 6 and display[0] == "X":
+            print("\nHINT: The first digit of the secret number is revealed!")
+            display[0] = secret[0]
+
+        guess = input("Enter your 4-digit guess: ").strip()
+
+        # Validate input
+        if len(guess) != 4 or not guess.isdigit():
+            print("Invalid input! Please enter exactly 4 digits.")
+            continue
+
+        # Check for win
+        if guess == secret:
+            print("\n CONGRATULATIONS! YOU WIN THE GAME,", output, nm)
+            print(f" You cracked the code in {round_num} rounds.")
+            break
+
+        # Update correct digits
+        for j in range(4):
+            if guess[j] == secret[j]:
+                display[j] = guess[j]
+
+        print("TRY AGAIN! Some digits are correct and locked in place.")
+        print("Current Status:", display)
+
+    else:
+        print("\n SORRY, YOU DID NOT WIN THE GAME. BETTER LUCK NEXT TIME!")
+        print("The secret number was:", secret)
+
+    # ===== PLAY AGAIN OPTION =====
+    while True:
+        play = input("\nDo you want to play again? (yes/no): ").lower().strip()
+        if play in ["yes", "no"]:
+            break
+        print("Invalid input! Please enter 'yes' or 'no'.")
+
+# ===== EXIT MESSAGE =====
+print("\nGOOD BYE", output, nm)
+
+if datetime.datetime.now().hour > 19:
+    print("GOOD NIGHT", output, nm)
+
+print("---------------------------------------------------------------------------------------------")
+print("THANKS FOR PLAYING THE MASTER MIND GAME,", output, nm)
+print("---------------------------------------------------------------------------------------------")
